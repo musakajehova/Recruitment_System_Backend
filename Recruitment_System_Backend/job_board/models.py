@@ -1,13 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser 
 
 # Create your models here.
-class person(models.Model):
-
+class CustomUser(AbstractUser):
     name=models.CharField(max_length=100)
     surname=models.CharField(max_length=100)
+    pass
+
+
+class person(models.Model):
     created_date=models.DateTimeField(auto_now_add=True)
     Date_of_birth=models.DateField()
     phone_no=models.CharField(max_length=15)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    id_no = models.IntegerField()
 
 class countries(models.Model):
     country_id=models.AutoField(primary_key=True)
@@ -35,7 +41,6 @@ class company_profile(models.Model):
     location_id=models.ForeignKey(location, on_delete=models.CASCADE)
     date_created=models.DateTimeField(auto_now_add=True)
 
-
 class job_type(models.Model):
     job_type_id=models.AutoField(primary_key=True)
     job_type=models.CharField(max_length=100)
@@ -43,14 +48,14 @@ class job_type(models.Model):
 
 class jobs(models.Model):
     job_id=models.AutoField(primary_key=True)
-    date_created=models.DateTimeField(auto_now_add=True)
+    title=models.CharField(max_length=200)
+    description=models.TextField()
     location_id=models.ForeignKey(location, on_delete=models.CASCADE)
     industry_id=models.ForeignKey(industry, on_delete=models.CASCADE)
-    end_date=models.DateField()
-    start_date=models.DateField()
     job_type_id=models.ForeignKey(job_type, on_delete=models.CASCADE)
     company_id=models.ForeignKey(company_profile, on_delete=models.CASCADE)
-    description=models.TextField()
-    title=models.CharField(max_length=200)
+    start_date=models.DateField()
+    end_date=models.DateField()
+    date_created=models.DateTimeField(auto_now_add=True)
 
 
