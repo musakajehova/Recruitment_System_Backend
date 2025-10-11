@@ -35,27 +35,27 @@ class industry(models.Model):
 
 class company_profile(models.Model):
     company_id=models.AutoField(primary_key=True)
-    company_name=models.CharField(max_length=200)
-    company_website=models.URLField(max_length=200)
-    industry_id=models.ForeignKey(industry, on_delete=models.CASCADE)
-    location_id=models.ForeignKey(location, on_delete=models.CASCADE)
-    date_created=models.DateTimeField(auto_now_add=True)
+    company_name=models.CharField(max_length=200, related_name="company_profile")
+    company_website=models.URLField(max_length=200, related_name="company_profile")
+    industry_id=models.ForeignKey(industry, on_delete=models.CASCADE, related_name="company_profile")
+    location_id=models.ForeignKey(location, on_delete=models.CASCADE, related_name="company_profile")
+    date_created=models.DateTimeField(auto_now_add=True, related_name="company_profile")
 
 class job_type(models.Model):
     job_type_id=models.AutoField(primary_key=True)
-    job_type=models.CharField(max_length=100)
+    job_type=models.CharField(max_length=100, related_name="job")
     date_created=models.DateTimeField(auto_now_add=True)
 
 class jobs(models.Model):
     job_id=models.AutoField(primary_key=True)
-    title=models.CharField(max_length=200)
-    description=models.TextField()
-    location_id=models.ForeignKey(location, on_delete=models.CASCADE)
-    industry_id=models.ForeignKey(industry, on_delete=models.CASCADE)
-    job_type_id=models.ForeignKey(job_type, on_delete=models.CASCADE)
-    company_id=models.ForeignKey(company_profile, on_delete=models.CASCADE)
-    start_date=models.DateField()
-    end_date=models.DateField()
-    date_created=models.DateTimeField(auto_now_add=True)
+    title=models.CharField(max_length=200, related_name="jobs")
+    description=models.TextField(related_name="jobs")
+    location_id=models.ForeignKey(location, on_delete=models.CASCADE, related_name="jobs")
+    industry_id=models.ForeignKey(industry, on_delete=models.CASCADE, related_name="jobs")
+    job_type_id=models.ForeignKey(job_type, on_delete=models.CASCADE, related_name="jobs")
+    company_id=models.ForeignKey(company_profile, on_delete=models.CASCADE, related_name="jobs")
+    start_date=models.DateField(related_name="jobs")
+    end_date=models.DateField( related_name="jobs")
+    date_created=models.DateTimeField(auto_now_add=True, related_name="jobs")
 
 
