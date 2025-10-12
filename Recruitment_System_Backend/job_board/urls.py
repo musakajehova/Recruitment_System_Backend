@@ -1,0 +1,12 @@
+RegisterView
+LoginView
+LogoutView
+JobsListView
+JobsListCreateView
+DeleteJobsView
+PersonListView
+CountriesListCreateView
+LocationListCreateView
+IndustryListCreateView
+CompanyListCreateView
+JobTypeListCreatView
