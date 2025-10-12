@@ -66,14 +66,10 @@ class Company_profileSerializer(serializers.ModelSerializer):
     class Meta:
         model = company_profile
         fields = ['company_id', 'company_name', 'company_website', 'industry_id', 'location_id', 'date_created']
-
         
 class Job_typeSerializer(serializers.ModelSerializer):
     class Meta:
         model = job_type
         fields = ['job_type_id', 'job_type', 'date_created']
-        
-            
-    
-    
-    
+
+#Remember to update serializer to pull actual names rather than id
