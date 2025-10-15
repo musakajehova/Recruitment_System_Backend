@@ -4,24 +4,92 @@ This is a recruitment system that will connect job seeker and recruiters.
 
 This is a simple recruitment job portal that will allow candidates to register a profile and then apply to jobs. Recruiters will be able to register a profile,  create jobs and search candidates.
 
-### API Endpoints 
+## API Endpoints 
 
 job_board/register/
 job_board/login/
 job_board/logout/
 job_board/jobs/
-job_board/jobs/create/
-job_board/jobs/delete/
+    job_board/jobs/create/
+    job_board/jobs/delete/
 job_board/person/
 job_board/countries/
-job_board/countries/create/
+    job_board/countries/create/
 job_board/location/
-job_board/location/create/
+    job_board/location/create/
 job_board/industry/
-job_board/industry/create/
+    job_board/industry/create/
 job_board/company/
-job_board/company/create/
+    job_board/company/create/
 job_board/jobtype/
-job_board/jobtype/create/
+    job_board/jobtype/create/
 
-## Api Json 
+## Json
+Templates you can use to interact with the API
+
+### CustomUser:
+{
+    "name":,
+    "surname":
+}
+
+### person:
+{
+    "created_date":,
+    "Date_of_birth":,
+    "phone_no":,
+    "profile_picture":, 
+    "id_no": 
+}
+### countries:
+{
+    "country_id":,
+    "country":,
+    "date_created":
+}
+
+### location:
+{
+    "location_id":,
+    "country_id":,
+    "city":,
+    "postal_code":,
+    "geo_location":
+}
+### industry:
+{
+    "industry_id": ,
+    "industry": ,
+    "date_created": 
+}
+
+### company_profile:
+{
+    "company_id": ,
+    "company_name": ,
+    "company_website": ,
+    "industry_id": ,
+    "location_id": ,
+    "date_created": 
+}
+
+### job_type:
+{
+    "job_type_id": ,
+    "job_type": ,
+    "date_created": 
+}
+
+### jobs:
+{
+    "job_id": ,
+    "title": ,
+    "description": ,
+    "location_id": ,
+    "industry_id": ,
+    "job_type_id": ,
+    "company_id": ,
+    "start_date": ,
+    "end_date": ,
+    "date_created": 
+}

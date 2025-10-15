@@ -39,3 +39,6 @@ htmlcov/
 
 #Test output
 *.test.xml
+
+#Postman file
+Postman/
