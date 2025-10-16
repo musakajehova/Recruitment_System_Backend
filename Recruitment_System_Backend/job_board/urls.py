@@ -2,6 +2,7 @@ from django.urls import path, include
 from .views import (RegisterView, LoginView, LogoutView, JobsListView, JobsListCreateView, DeleteJobsView, 
                     PersonListView, CountriesListCreateView, LocationListCreateView, IndustryListCreateView, 
                     CompanyListCreateView, JobTypeListCreatView)
+from rest_framework import views
 
 #TO do-list
 #   Fix the api endpoints by adding <int:pk>/ for update and delete
@@ -23,7 +24,8 @@ urlpatterns= [
     path( 'company/', CompanyListCreateView.as_view(), name='company_view'),
     path( 'company/create/', CompanyListCreateView.as_view(), name='companyCreate_view'),
     path( 'jobtype/', JobTypeListCreatView.as_view(), name='jobType_view'),
-    path( 'jobtype/create/', JobTypeListCreatView.as_view(), name='jobTypeCreate_view'),    
+    path( 'jobtype/create/', JobTypeListCreatView.as_view(), name='jobTypeCreate_view'), 
+    path('api-token-auth/', views.obtain_auth_token)   
 ]
 """
 RegisterView

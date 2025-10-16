@@ -8,9 +8,16 @@ from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,Re
 from django.contrib.auth import get_user_model 
 from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type
 from rest_framework.permissions import AllowAny
+from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 User = get_user_model()
+
+class NormalPaginationSize(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
 
 ###############################################################################################
 """Admin Views"""
@@ -30,10 +37,12 @@ class LogoutView(GenericAPIView):
 class JobsListView(ListAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
+    pagination_class = NormalPaginationSize
 
 class JobsListCreateView(ListCreateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
+    
 
 class DeleteJobsView(RetrieveDestroyAPIView):
     queryset = jobs.objects.all()
