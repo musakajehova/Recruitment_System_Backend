@@ -12,7 +12,7 @@ class person(models.Model):
     Date_of_birth=models.DateField()
     phone_no=models.CharField(max_length=15)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
-    id_no = models.IntegerField()
+    id_no = models.CharField(max_length=20)
 
 class countries(models.Model):
     country_id=models.AutoField(primary_key=True)

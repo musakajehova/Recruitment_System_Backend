@@ -5,7 +5,7 @@ This is a recruitment system that will connect job seeker and recruiters.
 This is a simple recruitment job portal that will allow candidates to register a profile and then apply to jobs. Recruiters will be able to register a profile,  create jobs and search candidates.
 
 ## API Endpoints 
-
+http://127.0.0.1:8000/
 job_board/register/
 job_board/login/
 job_board/logout/
@@ -29,13 +29,15 @@ Templates you can use to interact with the API
 
 ### CustomUser:
 {
-    "name":,
-    "surname":
+    "username": ,
+    "email": ,
+    "name": ,
+    "surname": ,
+    "password": 
 }
 
 ### person:
 {
-    "created_date":,
     "Date_of_birth":,
     "phone_no":,
     "profile_picture":, 
@@ -45,7 +47,6 @@ Templates you can use to interact with the API
 {
     "country_id":,
     "country":,
-    "date_created":
 }
 
 ### location:
@@ -60,7 +61,6 @@ Templates you can use to interact with the API
 {
     "industry_id": ,
     "industry": ,
-    "date_created": 
 }
 
 ### company_profile:

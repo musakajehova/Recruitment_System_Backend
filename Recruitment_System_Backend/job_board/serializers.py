@@ -37,8 +37,8 @@ class jobsSerialzer(serializers.ModelSerializer):
     
     class Meta:
         model = jobs
-        fields = ['job_id', 'title', 'description', 'location', 'industry', 
-                  'job_type', 'company_name', 'start_date', 'end_date', 'date_created']
+        fields = ['job_id', 'title', 'description', 'location_id', 'location', 'industry_id', 'industry',
+                  'job_type_id', 'job_type', 'company_id', 'company_name', 'start_date', 'end_date', 'date_created']
         
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:

@@ -7,6 +7,7 @@ from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,Re
                                      CreateAPIView, GenericAPIView)
 from django.contrib.auth import get_user_model 
 from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type
+from rest_framework.permissions import AllowAny
 
 # Create your views here.
 User = get_user_model()
@@ -16,6 +17,7 @@ User = get_user_model()
 class RegisterView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+    permission_classes  = [AllowAny]
 
 class LoginView(GenericAPIView):
     pass
@@ -37,10 +39,16 @@ class DeleteJobsView(RetrieveDestroyAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
 ###############################################################################################
-class PersonListView(ListAPIView):
+"""Views for Person """
+class PersonListView(ListCreateAPIView):
     queryset = person.objects.all()
     serializer_class = PersonSerializer
 
+class Person(RetrieveUpdateAPIView):
+    queryset = person.objects.all()
+    serializer_class = PersonSerializer
+
+###############################################################################################
 class CountriesListCreateView(ListCreateAPIView):
     queryset = countries.objects.all()
     serializer_class = CountriesSerializer
