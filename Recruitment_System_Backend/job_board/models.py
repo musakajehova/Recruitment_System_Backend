@@ -3,6 +3,15 @@ from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
+################################################################
+"""Create tokens for the exsisting users"""
+#from django.contrib.auth.models import User
+#from rest_framework.authtoken.models import Token
+
+#for user in User.objects.all():
+#    Token.objects.get_or_create(user=user)
+##################################################################
+
 class CustomUser(AbstractUser):
     first_name=models.CharField(max_length=100, blank=False, null=False)
     surname=models.CharField(max_length=100)
@@ -82,10 +91,3 @@ class jobs(models.Model):
         return f"Title:{self.title} Start Date:{self.start_date} End date:{self.end_date}"
     
 
-#########################################
-"""Create tokens for the exsisting users"""
-from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
-
-for user in User.objects.all():
-    Token.objects.get_or_create(user=user)
