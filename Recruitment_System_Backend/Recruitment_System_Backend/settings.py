@@ -83,7 +83,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Recruitment_System_Backend.wsgi.application'
 
 ####################################################################
-AUTH_USER_MODEL = 'job_board.CustomUser'
+AUTH_USER_MODEL = 'job_board.CustomUser'  # Custom authentication for the extended user model
 ####################################################################
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

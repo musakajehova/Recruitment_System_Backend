@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser 
-
+from django.conf import settings
 
 # Create your models here.
 ################################################################
@@ -11,6 +11,7 @@ from django.contrib.auth.models import AbstractUser
 #for user in User.objects.all():
 #    Token.objects.get_or_create(user=user)
 ##################################################################
+User = settings.AUTH_USER_MODEL
 
 class CustomUser(AbstractUser):
     first_name=models.CharField(max_length=100, blank=False, null=False)
@@ -21,7 +22,8 @@ class CustomUser(AbstractUser):
 
 
 class person(models.Model):
-    created_date=models.DateTimeField(auto_now_add=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    date_created=models.DateTimeField(auto_now_add=True)
     Date_of_birth=models.DateField()
     phone_no=models.CharField(max_length=15)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
@@ -44,6 +46,10 @@ class location(models.Model):
     city=models.CharField(max_length=100, blank=False)
     postal_code=models.CharField(max_length=20)
     geo_location=models.CharField(max_length=30)
+    date_created=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['country_id','date_created']
 
     def __str__(self):
         return f"City:{self.city} Postal Code:{self.postal_code} Geo-Location:{self.geo_location}"
@@ -86,6 +92,11 @@ class jobs(models.Model):
     start_date=models.DateField()
     end_date=models.DateField()
     date_created=models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['date_created']
+    
 
     def __str__(self):
         return f"Title:{self.title} Start Date:{self.start_date} End date:{self.end_date}"

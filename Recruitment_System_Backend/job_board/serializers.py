@@ -15,14 +15,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password','name', 'surname']
+        fields = ['username', 'email', 'password','first_name', 'surname']
 
     def create(self, validated_data):
         user = get_user_model().objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email'),
             password=validated_data['password'],
-            name=validated_data['name'],
+            name=validated_data['first_name'],
             surname=validated_data['surname'],
         )
         # create token for new user
@@ -34,42 +34,50 @@ class jobsSerialzer(serializers.ModelSerializer):
     industry = serializers.CharField(source='industry.industry', read_only=True)
     location = serializers.CharField(source='location.city', read_only=True)
     job_type = serializers.CharField(source='job_type.job_type', read_only=True)
+    author = serializers.ReadOnlyField(source='author.username')
     
     class Meta:
         model = jobs
         fields = ['job_id', 'title', 'description', 'location_id', 'location', 'industry_id', 'industry',
-                  'job_type_id', 'job_type', 'company_id', 'company_name', 'start_date', 'end_date', 'date_created']
+                  'job_type_id', 'job_type', 'company_id', 'company_name', 'start_date', 'end_date', 'date_created', 'author']
+        read_only_fields = ['date_created']
         
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = person
-        fields = ['created_date', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no']
+        fields = ['user_id', 'created_date', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no']
+        read_only_fields = ['date_created', 'user_id']
 
 class CountriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = countries   
         fields = ['country_id', 'country', 'date_created']
+        read_only_fields = ['date_created']
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = location
-        fields = ['location_id', 'country_id', 'city', 'postal_code', 'geo_location']
+        fields = ['location_id', 'country_id', 'city', 'postal_code', 'geo_location', 'date_created']
+        read_only_fields = ['date_created']
 
         
 class IndustrySerializer(serializers.ModelSerializer):
     class Meta:
         model = industry
         fields = ['industry_id' , 'industry' , 'date_created']
+        read_only_fields = ['date_created']
 
         
 class Company_profileSerializer(serializers.ModelSerializer):
     class Meta:
         model = company_profile
         fields = ['company_id', 'company_name', 'company_website', 'industry_id', 'location_id', 'date_created']
+        read_only_fields = ['date_created'] 
         
 class Job_typeSerializer(serializers.ModelSerializer):
     class Meta:
         model = job_type
         fields = ['job_type_id', 'job_type', 'date_created']
+        read_only_fiels = ['date_created']
 
 #Remember to update serializer to pull actual names rather than id

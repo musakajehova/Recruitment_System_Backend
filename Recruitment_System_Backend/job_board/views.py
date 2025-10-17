@@ -5,10 +5,12 @@ from .serializers import (UserSerialzer, RegisterSerializer, jobsSerialzer, Pers
 from rest_framework import viewsets
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,RetrieveDestroyAPIView, ListAPIView, 
                                      CreateAPIView, GenericAPIView)
-from django.contrib.auth import get_user_model 
+from django.contrib.auth import get_user_model, authenticate
 from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type
 from rest_framework.permissions import AllowAny
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
 # Create your views here.
 User = get_user_model()
@@ -27,9 +29,20 @@ class RegisterView(CreateAPIView):
     permission_classes  = [AllowAny]
 
 class LoginView(GenericAPIView):
+    permission_classes  = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user:
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key})
+        return Response({"error": "Invalid credentials"}, status=400)
     pass
 
 class LogoutView(GenericAPIView):
+    permission_classes  = [AllowAny]
     pass
 
 ###############################################################################################
@@ -42,6 +55,9 @@ class JobsListView(ListAPIView):
 class JobsListCreateView(ListCreateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
     
 
 class DeleteJobsView(RetrieveDestroyAPIView):
@@ -52,6 +68,9 @@ class DeleteJobsView(RetrieveDestroyAPIView):
 class PersonListView(ListCreateAPIView):
     queryset = person.objects.all()
     serializer_class = PersonSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
 
 class Person(RetrieveUpdateAPIView):
     queryset = person.objects.all()
