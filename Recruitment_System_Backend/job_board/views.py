@@ -81,6 +81,20 @@ class JobsListCreateView(ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+class JobsRecruiterView(RetrieveUpdateAPIView):
+    queryset = jobs.objects.all()
+    serializer_class = jobsSerialzer
+    permission_classes = [IsAuthenticated, IsRecruiter, IsAdministator, IsAdminUser]
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date_created', 'updated_at']
+
+    def get_queryset(self):
+        """
+        This view should only return the jobs created by the recruiter
+        """
+        user = self.request.user
+        return jobs.objects.filter(author=user)
+
 class JobsUpdateView(RetrieveUpdateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
@@ -121,6 +135,7 @@ class AdminPersonsView(RetrieveUpdateAPIView):
     ordering_fields = ['date_created', 'updated_at']
 
 ###############################################################################################
+"""Only AdminUser can access these"""
 class CountriesListCreateView(ListCreateAPIView):
     queryset = countries.objects.all()
     serializer_class = CountriesSerializer

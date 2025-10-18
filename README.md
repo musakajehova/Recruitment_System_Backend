@@ -6,12 +6,28 @@ This is a simple recruitment job portal that will allow candidates to register a
 
 ## Notes
 
-Time zone is changed to south africa
+- Time zone is changed to south africa
+- 
 
 
 ## Authentication
 
-The default authentica
+The default authentication classes set in settings are:
+- BasicAuthentication
+- SessionAuthentication
+- TokenAuthentication
+
+## Permissions
+
+The default permissions set in settings are:
+- IsAuthenticated
+- IsAdminUser
+
+
+Using the role field in person model, two custom permissions were created:
+- IsRecruiter
+- IsAdministator
+
 
 ## API Endpoints 
 http://127.0.0.1:8000/

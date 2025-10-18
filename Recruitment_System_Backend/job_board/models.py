@@ -35,7 +35,7 @@ class person(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     id_no = models.CharField(max_length=20, unique=True, blank=False, null=False)
     updated_at=models.DateTimeField(auto_now=True)
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='candidate')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='candidate') #Field used for permissions
 
     def __str__(self):
         return f"Date of birth:{self.Date_of_birth} Phone no:{self.phone_no} ID Numner:{self.id_no}"
@@ -101,7 +101,7 @@ class jobs(models.Model):
     start_date=models.DateField()
     end_date=models.DateField()
     date_created=models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE) #This will be automatically updated
     updated_at=models.DateTimeField(auto_now=True)
 
     class Meta:

@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import (RegisterView, LoginView, LogoutView, JobsListView, JobsListCreateView, DeleteJobsView, 
                     PersonListView, CountriesListCreateView, CountriesUpdateView, LocationListCreateView, LocationUpdateView,
                     IndustryListCreateView, IndustryUpdateView, CompanyListCreateView, CompanyUpdateView, JobTypeListCreatView, 
-                    JobTypeUpdateView, RecruiterRegisterView, JobsUpdateView, AdminPersonsView)
+                    JobTypeUpdateView, RecruiterRegisterView, JobsUpdateView, AdminPersonsView, JobsRecruiterView)
 from rest_framework.authtoken.views import obtain_auth_token
 
 
@@ -19,6 +19,8 @@ urlpatterns= [
     path( 'jobs/create/', JobsListCreateView.as_view(), name='jobsCreate_view'),
     path( 'jobs/delete/<int:pk>/', DeleteJobsView.as_view(), name='deleteJobs_view'),
     path( 'jobs/update/<int:pk>/', JobsUpdateView.as_view(), name='UpdateJobs_view'),
+    path( 'jobs/recruiter/<int:pk>/', JobsRecruiterView.as_view(), name='recruiterJobs_view'),
+
     
     path( 'person/', PersonListView.as_view(), name='person_view'),
     path( 'person/create/', PersonListView.as_view(), name='person_create'),
