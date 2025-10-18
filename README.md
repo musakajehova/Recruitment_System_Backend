@@ -7,8 +7,11 @@ This is a simple recruitment job portal that will allow candidates to register a
 ## Notes
 
 - Time zone is changed to south africa
-- 
-
+- creating a Recruiter or admin profile
+    - Register a user 
+    - create a profile
+    - update role to recruiter
+    - IsAdminUser, isSuperUser, IsAdministrator can change a user's Role
 
 ## Authentication
 
@@ -27,6 +30,9 @@ The default permissions set in settings are:
 Using the role field in person model, two custom permissions were created:
 - IsRecruiter
 - IsAdministator
+
+## Security
+Add production settings and security configurations to settings.py. These are all commented out as the project is still being tested.
 
 
 ## API Endpoints 

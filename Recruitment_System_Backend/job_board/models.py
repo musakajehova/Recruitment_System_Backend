@@ -17,6 +17,8 @@ class CustomUser(AbstractUser):
     first_name=models.CharField(max_length=100, blank=False, null=False)
     surname=models.CharField(max_length=100)
 
+    REQUIRED_FIELDS = ['first_name', 'surname', 'email']
+
     def __str__(self):
         return f"{self.username}"
 
