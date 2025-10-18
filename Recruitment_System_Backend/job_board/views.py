@@ -2,12 +2,12 @@ from django.shortcuts import render
 from .serializers import (UserSerialzer, RegisterSerializer, jobsSerialzer, PersonSerializer, CountriesSerializer,
                             LocationSerializer, IndustrySerializer, Company_profileSerializer, Job_typeSerializer)
 
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,RetrieveDestroyAPIView, ListAPIView, 
                                      CreateAPIView, GenericAPIView)
 from django.contrib.auth import get_user_model, authenticate
 from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -35,6 +35,7 @@ class LoginView(GenericAPIView):
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(username=username, password=password)
+        
         if user:
             token, _ = Token.objects.get_or_create(user=user)
             return Response({"token": token.key})
@@ -42,8 +43,11 @@ class LoginView(GenericAPIView):
     pass
 
 class LogoutView(GenericAPIView):
-    permission_classes  = [AllowAny]
-    pass
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        request.user.auth_token.delete()
+        return Response({'message': 'Logged out successfully'}, status=200)
 
 ###############################################################################################
 """Views for Jobs """
@@ -51,10 +55,14 @@ class JobsListView(ListAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
     pagination_class = NormalPaginationSize
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date_created', 'updated_at']
 
 class JobsListCreateView(ListCreateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date_created', 'updated_at']
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -68,9 +76,18 @@ class DeleteJobsView(RetrieveDestroyAPIView):
 class PersonListView(ListCreateAPIView):
     queryset = person.objects.all()
     serializer_class = PersonSerializer
+    filter_backends = [filters.OrderingFilter]
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
+
+    def get_queryset(self):
+        """
+        This view should only return the profile for login user
+        """
+        user = self.request.user
+        return person.objects.filter(person=user)
+        #remember to include an if statement for user authentication between admin and user
 
 class Person(RetrieveUpdateAPIView):
     queryset = person.objects.all()
@@ -84,6 +101,8 @@ class CountriesListCreateView(ListCreateAPIView):
 class LocationListCreateView(ListCreateAPIView):
     queryset = location.objects.all()
     serializer_class = LocationSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['country_id']
 
 class IndustryListCreateView(ListCreateAPIView):
     queryset = industry.objects.all()

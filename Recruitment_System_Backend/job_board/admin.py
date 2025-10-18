@@ -5,7 +5,6 @@ from .models import CustomUser, person, jobs, countries, location, industry, com
 from django.contrib.auth.models import User
 from rest_framework.authtoken.admin import TokenAdmin
 
-admin.site.register(User)
 admin.site.register(CustomUser)
 admin.site.register(person)
 admin.site.register(jobs)

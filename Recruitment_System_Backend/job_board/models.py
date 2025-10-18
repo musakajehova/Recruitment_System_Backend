@@ -22,12 +22,20 @@ class CustomUser(AbstractUser):
 
 
 class person(models.Model):
+    ROLE_CHOICES = [
+        ('superuser', 'Superuser'),
+        ('admin', 'Admin'),
+        ('recruiter', 'Recruiter'),
+        ('candidate', 'Candidate')]
+
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     date_created=models.DateTimeField(auto_now_add=True)
     Date_of_birth=models.DateField()
     phone_no=models.CharField(max_length=15)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     id_no = models.CharField(max_length=20, unique=True, blank=False, null=False)
+    updated_at=models.DateTimeField(auto_now=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='candidate')
 
     def __str__(self):
         return f"Date of birth:{self.Date_of_birth} Phone no:{self.phone_no} ID Numner:{self.id_no}"
@@ -69,9 +77,10 @@ class company_profile(models.Model):
     industry_id=models.ForeignKey(industry, on_delete=models.CASCADE, related_name="company_profile")
     location_id=models.ForeignKey(location, on_delete=models.CASCADE, related_name="company_profile")
     date_created=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Company Name:{self.company_name} Company Website:{self.company_website}"
+        return f"Company Name: {self.company_name} Company Website:{self.company_website}"
 
 class job_type(models.Model):
     job_type_id=models.AutoField(primary_key=True)
@@ -93,6 +102,7 @@ class jobs(models.Model):
     end_date=models.DateField()
     date_created=models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    updated_at=models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['date_created']
