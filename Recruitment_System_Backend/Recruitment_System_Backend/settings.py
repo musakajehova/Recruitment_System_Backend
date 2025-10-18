@@ -32,7 +32,31 @@ SECRET_KEY = os.getenv('DJANGO_SECURITY_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#                               use this when ready for production
+##############################################################################################
+
+#"""Configure Django for HTTPS Support"""
+#SECURE_SSL_REDIRECT = True              #redirect all non-HTTPS requests to HTTPS
+#SECURE_HSTS_SECONDS = 31536000          #instruct browsers to only access the site via HTTPS for the specified time
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True   # include all subdomains in the HSTS policy and to allow preloading
+#SECURE_HSTS_PRELOAD = True              # include all subdomains in the HSTS policy and to allow preloading
+#
+#"""Enforce Secure Cookies"""
+#CSRF_COOKIE_SECURE = True       #ensure session cookies are only transmitted over HTTPS
+#SESSION_COOKIE_SECURE = True    #ensure CSRF cookies are only transmitted over HTTPS
+#
+#
+#"""Implement Secure Headers"""
+#SECURE_BROWSER_XSS_FILTER = True    #prevent your site from being framed and protect against clickjacking
+#X_FRAME_OPTIONS = 'DENY'            #prevent browsers from MIME-sniffing a response away from the declared content-type
+#SECURE_CONTENT_TYPE_NOSNIFF = True  #enable the browser’s XSS filtering and help prevent cross-site scripting attacks
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+##############################################################################################
+
+
+ALLOWED_HOSTS = []  
+#ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',') #CHANGED FROM []
 
 
 # Application definition
@@ -61,7 +85,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #####################################################################
+    #'whitenoise.middleware.WhiteNoiseMiddleware',  # serve static files        #use for production
+    #####################################################################
 ]
+
+#       use for production
+#############################################################CPS
+#"""                         CPS policies                        """
+#CSP_DEFAULT_SRC = ("'self'",)
+#CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')
+#CSP_SCRIPT_SRC = ("'self'",)
+#CSP_IMG_SRC = ("'self'", 'data:')
+###############################################################
 
 ROOT_URLCONF = 'Recruitment_System_Backend.urls'
 
@@ -136,6 +172,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+#               for production change set STATIC_URL = '/static/'
+#STATIC_ROOT = BASE_DIR / 'staticfiles'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR / 'media'
+#######################
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -156,6 +199,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.IsAdminUser',
     ],
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ]
 
 }
 #########################################################################################
