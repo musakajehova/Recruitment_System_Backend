@@ -48,8 +48,16 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = person
-        fields = ['user_id', 'date_created', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no', 'updated_at']
-        read_only_fields = ['date_created', 'user_id']
+        fields = ['user_id', 'date_created', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no', 'updated_at', 'role']
+        read_only_fields = ['date_created', 'user_id', 'role']
+
+class RecruiterPersonSerializer(serializers.ModelSerializer):
+    user_id = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = person
+        fields = ['user_id', 'date_created', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no', 'updated_at', 'role']
+        read_only_fields = ['user_id', 'date_created', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no', 'updated_at']
 
 class CountriesSerializer(serializers.ModelSerializer):
     class Meta:
