@@ -38,9 +38,13 @@ class LoginView(GenericAPIView):
         
         if user:
             token, _ = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key})
+            return Response({
+                "token": token.key,
+                "user_id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": getattr(user.person, 'role', None)})
         return Response({"error": "Invalid credentials"}, status=400)
-    pass
 
 class LogoutView(GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -86,7 +90,7 @@ class PersonListView(ListCreateAPIView):
         This view should only return the profile for login user
         """
         user = self.request.user
-        return person.objects.filter(person=user)
+        return person.objects.filter(user_id=user)
         #remember to include an if statement for user authentication between admin and user
 
 class Person(RetrieveUpdateAPIView):

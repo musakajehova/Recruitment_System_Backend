@@ -7,7 +7,7 @@ User = get_user_model()
 
 class UserSerialzer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = User
         fields = ['id', 'username', 'email', 'first_name', 'surname']
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data.get('email'),
             password=validated_data['password'],
-            name=validated_data['first_name'],
+            first_name=validated_data['first_name'],
             surname=validated_data['surname'],
         )
         # create token for new user
@@ -30,10 +30,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
 class jobsSerialzer(serializers.ModelSerializer):
-    company_name = serializers.CharField(source='company_profile.company_name', read_only=True)
-    industry = serializers.CharField(source='industry.industry', read_only=True)
-    location = serializers.CharField(source='location.city', read_only=True)
-    job_type = serializers.CharField(source='job_type.job_type', read_only=True)
+    company_name = serializers.CharField(source='company_id.company_name', read_only=True)
+    industry = serializers.CharField(source='industry_id.industry', read_only=True)
+    location = serializers.CharField(source='location_id.city', read_only=True)
+    job_type = serializers.CharField(source='job_type_id.job_type', read_only=True)
     author = serializers.ReadOnlyField(source='author.username')
     
     class Meta:
@@ -48,7 +48,7 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = person
-        fields = ['user_id', 'created_date', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no', 'updated_at']
+        fields = ['user_id', 'date_created', 'Date_of_birth', 'phone_no', 'profile_picture', 'id_no', 'updated_at']
         read_only_fields = ['date_created', 'user_id']
 
 class CountriesSerializer(serializers.ModelSerializer):

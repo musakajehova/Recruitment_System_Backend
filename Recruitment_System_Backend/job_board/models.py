@@ -28,7 +28,7 @@ class person(models.Model):
         ('recruiter', 'Recruiter'),
         ('candidate', 'Candidate')]
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    user_id = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=False, null=False)
     date_created=models.DateTimeField(auto_now_add=True)
     Date_of_birth=models.DateField()
     phone_no=models.CharField(max_length=15)
@@ -101,7 +101,7 @@ class jobs(models.Model):
     start_date=models.DateField()
     end_date=models.DateField()
     date_created=models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     updated_at=models.DateTimeField(auto_now=True)
 
     class Meta:
