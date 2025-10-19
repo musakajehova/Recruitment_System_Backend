@@ -235,3 +235,14 @@ Jobs
     "author": "musa",
     "updated_at": "2025-10-19T14:17:03.299901+02:00"
 }
+
+
+
+
+{
+    "username": "test_10",
+    "email": "test@admin.com",
+    "first_name": "test_1",
+    "surname": "test_1",
+    "password": "Alx#1"
+}
