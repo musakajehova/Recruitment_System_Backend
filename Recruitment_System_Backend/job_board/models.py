@@ -30,7 +30,7 @@ class person(models.Model):
         ('recruiter', 'Recruiter'),
         ('candidate', 'Candidate')]
 
-    user_id = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=False, null=False)
+    user_id = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=False, null=False, related_name='person')
     date_created=models.DateTimeField(auto_now_add=True)
     Date_of_birth=models.DateField()
     phone_no=models.CharField(max_length=15)

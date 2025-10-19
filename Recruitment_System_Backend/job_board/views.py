@@ -73,7 +73,8 @@ class JobsListView(ListAPIView):
 class JobsListCreateView(ListCreateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
-    permission_classes = [IsAuthenticated, IsRecruiter, IsAdministator, IsAdminUser]
+    #permission_classes = [IsAuthenticated, IsRecruiter, IsAdministator, IsAdminUser]
+    permission_classes = [IsAuthenticated, IsRecruiter]
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['date_created', 'updated_at']
 
@@ -83,7 +84,7 @@ class JobsListCreateView(ListCreateAPIView):
 class JobsRecruiterView(RetrieveUpdateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
-    permission_classes = [IsAuthenticated, IsRecruiter, IsAdministator, IsAdminUser]
+    permission_classes = [IsAuthenticated, IsRecruiter]
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['date_created', 'updated_at']
 
@@ -97,7 +98,7 @@ class JobsRecruiterView(RetrieveUpdateAPIView):
 class JobsUpdateView(RetrieveUpdateAPIView):
     queryset = jobs.objects.all()
     serializer_class = jobsSerialzer
-    permission_classes = [IsAuthenticated, IsRecruiter, IsAdministator, IsAdminUser]
+    permission_classes = [IsAuthenticated, IsRecruiter]
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['date_created', 'updated_at']
     
