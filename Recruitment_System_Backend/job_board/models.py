@@ -113,4 +113,8 @@ class jobs(models.Model):
     def __str__(self):
         return f"Title:{self.title} Start Date:{self.start_date} End date:{self.end_date}"
     
-
+class applications(models.Model):
+    application_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='applications')
+    jobs_id = models.ForeignKey(jobs, on_delete=models.CASCADE, related_name='applications')
+    person_id = models.ForeignKey(person, on_delete=models.CASCADE, related_name='applications')
