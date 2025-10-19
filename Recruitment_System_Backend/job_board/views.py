@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from .serializers import (UserSerialzer, RegisterSerializer, RecruiterPersonSerializer, jobsSerialzer, PersonSerializer, CountriesSerializer,
-                            LocationSerializer, IndustrySerializer, Company_profileSerializer, Job_typeSerializer)
+                            LocationSerializer, IndustrySerializer, Company_profileSerializer, Job_typeSerializer, ApplicationSerializer)
 
 from rest_framework import viewsets, filters
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,RetrieveDestroyAPIView, ListAPIView, 
                                      CreateAPIView, GenericAPIView)
 from django.contrib.auth import get_user_model, authenticate
-from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type
+from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type, applications
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .permissions import IsRecruiter, IsAdministator
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError
 
 # Create your views here.
 User = get_user_model()
@@ -186,3 +187,33 @@ class JobTypeListCreatView(ListCreateAPIView):
 class JobTypeUpdateView(RetrieveUpdateAPIView):
     queryset = job_type.objects.all()
     serializer_class = Job_typeSerializer
+
+class ApplicationsCreateListView(ListCreateAPIView):
+    queryset = applications.objects.all()
+    serializer_class = ApplicationSerializer
+    permission_classes = [IsAuthenticated]
+    search_fields =['job_id']
+    ordering_fields = ['date_created', 'updated_at', 'jobs_id']
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        person = getattr(user, 'person', None)
+
+        if not person:
+            raise ValidationError("User does not have a related person profile.")
+
+        serializer.save(user_id=user, person_id=person)
+    
+    def get_queryset(self):
+        """
+        Candidate views their own applications
+        """
+        user = self.request.user
+        return applications.objects.filter(user_id=user)
+
+class ApplicationsListView(ListAPIView):
+    queryset = applications.objects.all()
+    serializer_class = ApplicationSerializer
+    permission_classes = [IsAuthenticated]
+    search_fields =['job_id']
+    ordering_fields = ['date_created', 'updated_at', 'jobs_id']

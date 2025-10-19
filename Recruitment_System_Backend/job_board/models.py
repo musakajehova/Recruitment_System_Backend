@@ -115,6 +115,17 @@ class jobs(models.Model):
     
 class applications(models.Model):
     application_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='applications')
-    jobs_id = models.ForeignKey(jobs, on_delete=models.CASCADE, related_name='applications')
-    person_id = models.ForeignKey(person, on_delete=models.CASCADE, related_name='applications')
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='applications', blank=False, null=False)
+    jobs_id = models.ForeignKey(jobs, on_delete=models.CASCADE, related_name='applications', blank=False, null=False)
+    person_id = models.ForeignKey(person, on_delete=models.CASCADE, related_name='applications', blank=False, null=False)
+    status_choices = [
+        ('pending', 'Pending'),
+        ('reviewed', 'Reviewed'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected')]
+    status = models.CharField(max_length=10, choices=status_choices, default='pending')
+    updated_at=models.DateTimeField(auto_now=True)
+    date_created=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user_id.username} → {self.jobs_id.title}"

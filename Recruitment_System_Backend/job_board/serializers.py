@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type
+from .models import CustomUser, person, jobs, countries, location, industry, company_profile, job_type, applications
 from rest_framework.authtoken.models import Token
 
 User = get_user_model()
@@ -95,4 +95,17 @@ class Job_typeSerializer(serializers.ModelSerializer):
         fields = ['job_type_id', 'job_type', 'date_created']
         read_only_fields = ['date_created']
 
-#Remember to update serializer to pull actual names rather than id
+#application
+class ApplicationSerializer(serializers.ModelSerializer):
+    user_id = serializers.ReadOnlyField(source='user_id.first_name')
+    jobs_id = serializers.PrimaryKeyRelatedField(queryset=jobs.objects.all())
+    person_id = serializers.ReadOnlyField(source='person_id.id')
+    dateOfBirth = serializers.ReadOnlyField(source='person_id.Date_of_birth')
+    phoneNo = serializers.ReadOnlyField(source='person_id.phone_no')
+    idNno = serializers.ReadOnlyField(source='person_id.id_no')
+
+    class Meta:
+        model = applications
+        fields = [ 'application_id', 'user_id', 'jobs_id', 'person_id', 'status', 'dateOfBirth', 'phoneNo', 'idNno',
+                  'updated_at', 'date_created']
+        read_only_fields = ['updated_at', 'date_created']
