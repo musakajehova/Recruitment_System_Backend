@@ -50,14 +50,13 @@ class LoginView(GenericAPIView):
                 "token": token.key,
                 "user_id": user.id,
                 "username": user.username,
-                "email": user.email,
-                "role": getattr(user.person, 'role', None)})
+                "email": user.email})
         return Response({"error": "Invalid credentials"}, status=400)
 
 class LogoutView(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         request.user.auth_token.delete()
         return Response({'message': 'Logged out successfully'}, status=200)
 
@@ -127,7 +126,14 @@ class PersonListView(ListCreateAPIView):
         #remember to include an if statement for user authentication between admin and user
 
 
-class AdminPersonsView(RetrieveUpdateAPIView):
+class AdminPersonsUpdate(RetrieveUpdateAPIView):
+    """Only admin users can access all persons fields"""
+    queryset = person.objects.all()
+    serializer_class = PersonSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date_created', 'updated_at']
+
+class AdminPersonsView(ListAPIView):
     """Only admin users can access all persons fields"""
     queryset = person.objects.all()
     serializer_class = PersonSerializer

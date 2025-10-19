@@ -3,38 +3,46 @@
 ## These are all the tests that I need to perform to check if the app works.
 
 ### models
+
 CustomUser
-- [] Candidate Register
-- [] Recruiter Register
+- [x] Candidate Register
+- [ ] Recruiter Register
+
+login
+- [x] login
+- [x] logout
 
 person
-- [] create a profile
-- [] update profile
+- [x] create a profile
+- [ ] create a Recruiter
+- [x] update profile
+- [ ] update profile role
+
 countries
-is admin
-- [] create country
-- [] view country
-- [] edit counrty 
+- [x] create country
+- [x] view country
+- [x] edit counrty 
+
 location
-- [] create
-- [] view 
-- [] edit 
+- [ ] create
+- [ ] view 
+- [ ] edit 
 industry
-- [] create
-- [] view
-- [] edit
+- [ ] create
+- [ ] view
+- [ ] edit
 company_profile
-- [] create
-- [] view
-- [] edit
+- [ ] create
+- [ ] view
+- [ ] edit
 job_type
-- [] create
-- [] view
-- [] edit
+- [ ] create
+- [ ] view
+- [ ] edit
 jobs
-- [] create
-- [] view
-- [] edit
+- [ ] create
+- [ ] view
+- [ ] edit
 applications - still to be created 
 
 
@@ -77,3 +85,153 @@ path( 'register/', RegisterView.as_view(), name='register_view'),
     jobtype/update/<int:pk>/ 
 
     api-token-auth
+
+
+
+#test 
+Authorization : Token <token-key>
+
+register
+{
+    "username": "2",
+    "email": "test@admin.com",
+    "first_name": "test_1",
+    "surname": "test_1",
+    "password": "Alx#1"
+}
+
+login
+{
+    "username":"2",
+    "password":"Alx#1"
+}
+returned
+{"token":"7df118076a038e3b01a6660ba867b6488fd71069","user_id":4,"username":"2","email":"test@admin.com"}
+
+logout
+return
+{
+    "message": "Logged out successfully"
+}
+
+Person
+{
+    "Date_of_birth": "1992-10-19",
+    "phone_no":"0746965372",
+    "profile_picture": null,
+    "id_no": "9210192546875123658"
+}
+return
+{
+        "user_id": "musa",
+        "date_created": "2025-10-19T07:51:29.079587+02:00",
+        "Date_of_birth": "1992-10-19",
+        "phone_no": "0746965372",
+        "profile_picture": null,
+        "id_no": "9210192546875123658",
+        "updated_at": "2025-10-19T07:51:29.079674+02:00",
+        "role": "candidate"
+}
+
+Countries
+{
+    "country":"Botswana"
+}
+return
+{
+    "country_id":1,"country":"South Africa","date_created":"2025-10-19T12:57:15.316561+02:00"
+}
+
+Location
+{
+    "country_id": 1,
+    "city": "Johannesburg",
+    "postal_code": "2180",
+    "geo_location": "151-2151-2135-3215"
+}
+return
+{
+    "location_id": 1,
+    "country_id": 1,
+    "city": "Johannesburg",
+    "postal_code": "2180",
+    "geo_location": "151-2151-2135-3215",
+    "date_created": "2025-10-19T13:21:35.544996+02:00"
+}
+
+Industry
+{
+    "industry": "Mining"
+}
+return
+{
+    "industry_id": 1,
+    "industry": "Mining",
+    "date_created": "2025-10-19T13:38:36.539250+02:00"
+}
+
+Company
+{
+    "company_name": "AliMusaTrading",
+    "company_website": "http://alimusatrading.com/",
+    "industry_id": 1,
+    "location_id": 1
+}
+
+{
+    "company_id": 1,
+    "company_name": "AliMusaTrading",
+    "company_website": "http://alimusatrading.com/",
+    "industry_id": 1,
+    "location_id": 1,
+    "date_created": "2025-10-19T13:45:07.088628+02:00",
+    "updated_at": "2025-10-19T13:45:07.088646+02:00"
+}
+return
+{
+    "company_id": 1,
+    "company_name": "AliMusaTrading",
+    "company_website": "http://alimusatrading.com/",
+    "industry_id": 1,
+    "location_id": "City of Johannesburg",
+    "date_created": "2025-10-19T13:45:07.088628+02:00",
+    "updated_at": "2025-10-19T13:45:07.088646+02:00"
+}
+
+JobType
+{
+    "job_type": "Back-End Developer"
+}
+return
+{
+    "job_type_id": 1,
+    "job_type": "Back-End Developer",
+    "date_created": "2025-10-19T14:04:30.625843+02:00"
+}
+
+Jobs
+{
+    "title": "Data Analyst",
+    "description": "Knlkanlknklknknlknlknlknvlkdsanvlksdanvlksdnvjkasdnvjsdhbavjkdsbvkjsdvn",
+    "location_id": 1,
+    "industry_id": 1,
+    "job_type_id": 1,
+    "company_id": 1,
+    "start_date": "2025-12-10",
+    "end_date": "2026-05-14"
+}
+
+{
+    "job_id": 1,
+    "title": "Data Analyst",
+    "description": "Knlkanlknklknknlknlknlknvlkdsanvlksdanvlksdnvjkasdnvjsdhbavjkdsbvkjsdvn",
+    "location_id": "City of Johannesburg",
+    "industry_id": "Mining",
+    "job_type_id": "Back-End Developer",
+    "company_id": "AliMusaTrading",
+    "start_date": "2025-12-10",
+    "end_date": "2026-05-14",
+    "date_created": "2025-10-19T14:17:03.299884+02:00",
+    "author": "musa",
+    "updated_at": "2025-10-19T14:17:03.299901+02:00"
+}
